@@ -7,10 +7,10 @@ export class UserModel{
     }
 
     static getUser = (id) => {
-        return users.find((user) => user.id === id);
+        return users.find((user) => user.id === parseInt(id));
     }
 
-    static getUserName = (firstName) =>{
+    static getUserFirstName = (firstName) =>{
         return users.find((user) => user.firstName.toLowerCase() === firstName.toLowerCase());
     }
 
@@ -21,8 +21,8 @@ export class UserModel{
         return user;
     }
 
-    static patchUser = (id, updateUser) => {
-        const findIndex = users.findIndex((user) => user.id === id);
+    static updateUser = (id, updateUser) => {
+        const findIndex = users.findIndex((user) => user.id === parseInt(id));
 
         if(findIndex === -1) return null;
         users[findIndex] = {
@@ -36,10 +36,10 @@ export class UserModel{
 
 
     static deleteUser = (id) => {
-        const findIndex = users.findIndex((user) => user.id === id);
+        const findIndex = users.findIndex((user) => user.id === parseInt(id));
 
         if(findIndex === -1) return null;
-        const user = users.splice(findIndex, 1)[0];
+        const user = users.splice(findIndex, 1);
         return user;
     }
 }
