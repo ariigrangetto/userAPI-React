@@ -60,7 +60,7 @@ export class ModelController {
     return res.status(200).json({ message: "ok", user: updatedUser });
   };
 
-  deleteUser = async (res, req) => {
+  deleteUser = async (req, res) => {
     const { id } = req.params;
     const deletedUser = await this.userModel.deleteUser(id);
     if (!deletedUser) {
