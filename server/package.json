@@ -5,7 +5,9 @@
   "main": "users.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:mongo": "nodemon server-with-mongoose.js"
+    "dev:mongo": "nodemon server-with-mongoose.js",
+    "dev:local": "nodemon server-with-local.js",
+    "dev:mysql": "nodemon server-with-mySql.js"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +22,7 @@
     "express": "5.1.0",
     "mongodb": "^6.20.0",
     "mongoose": "^8.19.2",
+    "mysql2": "^3.15.3",
     "uuid": "^13.0.0",
     "zod": "4.1.12"
   }
