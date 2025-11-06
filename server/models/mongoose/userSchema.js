@@ -42,15 +42,15 @@ userSchema.set("toJSON", {
 
 export const User = model("User", userSchema); 
 
-const insertUsers = async () =>{
-    try{
-        const result = await User.insertMany(users);
-        console.log(`${result.length} usuarios insertados`);
-    }catch(err){
-        console.error(`Error inserting users ${err}`);
-    }
-}
+// const insertUsers = async () =>{
+//     try{
+//         const result = await User.insertMany(users);
+//         console.log(`${result.length} usuarios insertados`);
+//     }catch(err){
+//         console.error(`Error inserting users ${err}`);
+//     }
+// }
 
-insertUsers();
+// insertUsers();
 
 
