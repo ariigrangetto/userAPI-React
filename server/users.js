@@ -1,14 +1,10 @@
 import express from "express";
 import cors from "cors";
-import "./models/mongoose/mongoDBConnection.js";
 import "dotenv/config";
 import process from "process";
 import { createRouter } from "./router/routesUser.js";
 
-console.log("hola");
-
 export const createApp = ({ userModel }) => {
-  console.log("hello");
   const app = express();
   app.disable("x-powered-by");
 
