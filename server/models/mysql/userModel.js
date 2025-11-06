@@ -1,11 +1,13 @@
 import mysql from "mysql2/promise";
+import process from "process";
+import "dotenv/config";
 
 const config = {
-  host: "localhost",
-  user: "root",
-  port: 3306,
-  passwoard: "",
-  database: "usersdb",
+  host: process.env.MONGO_DB_HOST,
+  user: process.env.MONGO_DB_USER,
+  port: process.env.MONGO_DB_PORT,
+  password: process.env.MONGO_DB_PASSWORD,
+  database: process.env.MONGO_DB_DATABASE,
 };
 
 const connection = await mysql.createConnection(config);
