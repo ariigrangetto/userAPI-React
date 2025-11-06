@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import { useEffect } from "react";
+import { getUsers } from "./service/getUsers";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [users, setUsers] = useState([]);
 
+  useEffect(() => {
+    async function getApiUser() {
+      const data = await getUsers();
+      console.log(data);
+      setUsers(data);
+    }
+
+    getApiUser();
+  }, []);
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <header></header>
+      <main>
+        <section className='users-lists'>
+          <ul>
+            {users.map((user) => (
+              <li key={user.id}>
+                <p>{user.firstName}</p>
+                <p>{user.lastName}</p>
+                <p>{user.maidenName}</p>
+                <p>{user.age}</p>
+                <p>{user.phone}</p>
+                <p>{user.role}</p>
+                <p>{user.birthDate}</p>
+                <p>{user.email}</p>
+                <p>{user.eyeColor}</p>
+                <p>{user.gender}</p>
+                <p>{user.university}</p>
+                <p>{user.username}</p>
+                <p>{user.weight}</p>
+                <p>{user.height}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </main>
+      <footer></footer>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
