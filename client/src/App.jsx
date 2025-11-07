@@ -2,9 +2,13 @@ import { useState } from "react";
 import "./App.css";
 import { useEffect } from "react";
 import { getUsers } from "./service/getUsers";
+import WithoutUsers from "./mocks/without-users.jsx";
+import WithUsers from "./mocks/with-users.jsx";
 
 function App() {
   const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const RESULTS_PER_PAGE = 4;
 
   useEffect(() => {
     async function getApiUser() {
@@ -12,34 +16,33 @@ function App() {
       console.log(data);
       setUsers(data);
     }
-
     getApiUser();
   }, []);
+
+  const totalPages = Math.ceil(users.length / RESULTS_PER_PAGE);
+
+  const resultsPerPage = users.slice(
+    (currentPage - 1) * RESULTS_PER_PAGE,
+    currentPage * RESULTS_PER_PAGE
+  );
+
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
   return (
     <>
       <header></header>
       <main>
         <section className='users-lists'>
-          <ul>
-            {users.map((user) => (
-              <li key={user.id}>
-                <p>{user.firstName}</p>
-                <p>{user.lastName}</p>
-                <p>{user.maidenName}</p>
-                <p>{user.age}</p>
-                <p>{user.phone}</p>
-                <p>{user.role}</p>
-                <p>{user.birthDate}</p>
-                <p>{user.email}</p>
-                <p>{user.eyeColor}</p>
-                <p>{user.gender}</p>
-                <p>{user.university}</p>
-                <p>{user.username}</p>
-                <p>{user.weight}</p>
-                <p>{user.height}</p>
-              </li>
-            ))}
-          </ul>
+          {resultsPerPage.length > 0 ? (
+            <WithUsers users={resultsPerPage} />
+          ) : (
+            <WithoutUsers />
+          )}
+          {pages.map((_, index) => (
+            <button onClick={() => setCurrentPage(index + 1)} key={index}>
+              {index + 1}
+            </button>
+          ))}
         </section>
       </main>
       <footer></footer>
