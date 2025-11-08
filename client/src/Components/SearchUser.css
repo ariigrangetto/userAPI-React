@@ -1,0 +1,51 @@
+.users-search {
+  margin: 0;
+  padding: 0;
+  height: auto !important;
+
+  .search-bar {
+    background: var(--input-bg);
+    padding: 0.25rem 0.5rem;
+    position: relative;
+  }
+
+  .search-filters {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+
+  form {
+    width: 100%;
+    max-width: 1280px;
+  }
+
+  form div {
+    background: none;
+    box-shadow: none;
+    padding: 0;
+  }
+  input {
+    padding: 12px;
+    width: 50%;
+    border-radius: 20px;
+    border: none;
+    margin: 10px;
+  }
+
+  button {
+    border: none;
+    border-radius: 20px;
+    width: 10%;
+    padding: 12px;
+  }
+
+  select {
+    border: none;
+    border-radius: 10px;
+    width: 10%;
+    padding: 5px;
+    margin-left: 5px;
+    margin-right: 10px;
+  }
+}

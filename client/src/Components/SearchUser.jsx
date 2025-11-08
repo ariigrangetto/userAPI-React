@@ -1,4 +1,5 @@
 import { useId } from "react";
+import "./SearchUser.css";
 
 export default function SearchUser({
   onTextToFilter,
@@ -54,9 +55,9 @@ export default function SearchUser({
 
   return (
     <>
-      <section>
+      <section className='users-search'>
         <form action='submit' onSubmit={handleSearchUser} name={searchUserForm}>
-          <div>
+          <div className='search-bar'>
             <input
               type='text'
               name={idInput}
@@ -65,14 +66,14 @@ export default function SearchUser({
             />
             <button type='submit'>Search</button>
           </div>
-          <div>
-            <label htmlFor={labelGender}>Gender:</label>
+          <div className='search-filters'>
+            <label htmlFor={labelGender}>Gender </label>
             <select name={idGender} id={idGender} onChange={handleChangeGender}>
               <option value=''>All</option>
               <option value='male'>Male</option>
               <option value='female'>Female</option>
             </select>
-            <label htmlFor={labelRol}>Rol:</label>
+            <label htmlFor={labelRol}>Rol </label>
             <select name={idRol} id={idRol} onChange={handleChangeRol}>
               <option value=''>All</option>
               <option value='moderator'>Moderator</option>
