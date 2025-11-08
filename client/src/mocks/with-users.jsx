@@ -1,26 +1,55 @@
-export default function WithUsers({ users }) {
+import "./WithUsers.css";
+
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
+export default function WithUsers({ users, onDeleteUser }) {
   return (
     <>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            <p>{user.firstName}</p>
-            <p>{user.lastName}</p>
-            <p>{user.maidenName}</p>
-            <p>{user.age}</p>
-            <p>{user.phone}</p>
-            <p>{user.role}</p>
-            <p>{user.birthDate}</p>
-            <p>{user.email}</p>
-            <p>{user.eyeColor}</p>
-            <p>{user.gender}</p>
-            <p>{user.university}</p>
-            <p>{user.username}</p>
-            <p>{user.weight}</p>
-            <p>{user.height}</p>
-          </li>
-        ))}
-      </ul>
+      <TableContainer component={Paper} className='table'>
+        <Table sx={{ minWidth: 650 }}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Image</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Age</TableCell>
+              <TableCell>Phone</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Gender</TableCell>
+              <TableCell>Role</TableCell>
+              <TableCell>Delete</TableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {users.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell>
+                  <img src={user.image} alt={user.firstName} />
+                </TableCell>
+
+                <TableCell>
+                  {user.firstName} {user.maidenName} {user.lastName}
+                </TableCell>
+
+                <TableCell>{user.age}</TableCell>
+                <TableCell>{user.phone}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.gender}</TableCell>
+                <TableCell>{user.rol}</TableCell>
+                <TableCell>
+                  <button onClick={() => onDeleteUser(user.id)}>Delete</button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 }
