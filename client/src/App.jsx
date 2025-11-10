@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { getUsers } from "./service/getUsers";
 import WithoutUsers from "./mocks/without-users.jsx";
 import WithUsers from "./mocks/with-users.jsx";
-import SearchUser from "./Components/SearchUser.jsx";
+import { SearchUser } from "./Components/SearchUser.jsx";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -14,6 +14,8 @@ function App() {
     rol: "",
     gender: "",
   });
+  const [sortByName, setSortByName] = useState(false);
+  const [sortByAge, setSortByAge] = useState(false);
 
   const RESULTS_PER_PAGE = 4;
 
@@ -55,12 +57,52 @@ function App() {
     setCurrentPage(1);
   };
 
-  const totalPages = Math.ceil(filteredByText?.length / RESULTS_PER_PAGE);
-  const resultsPerPage = filteredByText?.slice(
+  const handleSortUserByName = () => {
+    setSortByName((prev) => !prev);
+  };
+
+  const handleSortByAge = () => {
+    setSortByAge((prev) => !prev);
+  };
+
+  const sortedUsersByName = sortByName
+    ? filteredByText.toSorted((a, b) => a.firstName.localeCompare(b.firstName))
+    : filteredByText;
+
+  const sortedUsers = sortByAge
+    ? sortedUsersByName.toSorted((a, b) => a.age - b.age)
+    : sortedUsersByName;
+
+  const totalPages = Math.ceil(sortedUsers?.length / RESULTS_PER_PAGE);
+  const resultsPerPage = sortedUsers?.slice(
     (currentPage - 1) * RESULTS_PER_PAGE,
     currentPage * RESULTS_PER_PAGE
   );
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+  const isLastPage = currentPage === totalPages;
+  const isFirstPage = currentPage === 1;
+
+  const stylePrevButton = isFirstPage
+    ? { pointerEvents: "none", opacity: 0.5 }
+    : {};
+  const styleNextButton = isLastPage
+    ? { pointerEvents: "none", opacity: 0.5 }
+    : {};
+
+  const handlePrevPage = () => {
+    if (!isFirstPage) {
+      setCurrentPage((prev) => prev - 1);
+    }
+    return;
+  };
+
+  const handleNextPage = () => {
+    if (!isLastPage) {
+      setCurrentPage((prev) => prev + 1);
+    }
+    return;
+  };
 
   return (
     <>
@@ -78,16 +120,26 @@ function App() {
               <WithUsers
                 users={resultsPerPage}
                 onDeleteUser={handleDeleteUser}
+                onSortUsersName={handleSortUserByName}
+                onSortUsersAge={handleSortByAge}
               />
-              <button> prev </button>
+              <button onClick={handlePrevPage} className={stylePrevButton}>
+                prev
+              </button>
               {pages.map((_, index) => (
                 <>
-                  <button onClick={() => setCurrentPage(index + 1)} key={index}>
+                  <button
+                    onClick={() => setCurrentPage(index + 1)}
+                    className={currentPage === index + 1 ? "isActive" : ""}
+                    key={index}
+                  >
                     {index + 1}
                   </button>
                 </>
               ))}
-              <button> next </button>
+              <button onClick={handleNextPage} className={styleNextButton}>
+                next
+              </button>
             </>
           ) : (
             <WithoutUsers />
