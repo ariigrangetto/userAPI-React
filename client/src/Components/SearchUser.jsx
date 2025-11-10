@@ -1,7 +1,7 @@
-import { useId } from "react";
+import { memo, useId } from "react";
 import "./SearchUser.css";
 
-export default function SearchUser({
+export const SearchUser = memo(function SearchUser({
   onTextToFilter,
   setFilter,
   onSearch,
@@ -51,7 +51,7 @@ export default function SearchUser({
     const search = e.target.value;
     setTimeout(() => {
       onTextToFilter(search);
-    }, 2000);
+    }, 1000);
   };
 
   return (
@@ -85,4 +85,4 @@ export default function SearchUser({
       </section>
     </>
   );
-}
+});
