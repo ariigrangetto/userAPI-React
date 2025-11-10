@@ -25,16 +25,18 @@ function App() {
     getApiUser();
   }, []);
 
-  const filteredByFilters = users.filter((user) => {
+  const filteredByFilters = users?.filter((user) => {
     return (
-      //forma para aplicar ningun filtro
+      //forma para aplicar ningun filtro = ""
       (filters.gender === "" || user.gender === filters.gender) &&
       (filters.rol === "" || user.rol === filters.rol)
     );
   });
 
-  const filteredByText = filteredByFilters.filter((user) =>
-    user.firstName.toLowerCase().includes(textToFilter.toLowerCase())
+  const filteredByText = filteredByFilters?.filter(
+    (user) =>
+      user.firstName.toLowerCase().includes(textToFilter.toLowerCase()) ||
+      user.lastName.toLowerCase().includes(textToFilter.toLocaleLowerCase())
   );
 
   const handleSearch = (filters) => {
@@ -53,8 +55,8 @@ function App() {
     setCurrentPage(1);
   };
 
-  const totalPages = Math.ceil(filteredByText.length / RESULTS_PER_PAGE);
-  const resultsPerPage = filteredByText.slice(
+  const totalPages = Math.ceil(filteredByText?.length / RESULTS_PER_PAGE);
+  const resultsPerPage = filteredByText?.slice(
     (currentPage - 1) * RESULTS_PER_PAGE,
     currentPage * RESULTS_PER_PAGE
   );
@@ -65,7 +67,7 @@ function App() {
       <header></header>
       <main>
         <section className='users-lists'>
-          {resultsPerPage.length > 0 ? (
+          {resultsPerPage?.length > 0 ? (
             <>
               <SearchUser
                 onTextToFilter={handleFilterByText}
@@ -77,15 +79,19 @@ function App() {
                 users={resultsPerPage}
                 onDeleteUser={handleDeleteUser}
               />
+              <button> prev </button>
+              {pages.map((_, index) => (
+                <>
+                  <button onClick={() => setCurrentPage(index + 1)} key={index}>
+                    {index + 1}
+                  </button>
+                </>
+              ))}
+              <button> next </button>
             </>
           ) : (
             <WithoutUsers />
           )}
-          {pages.map((_, index) => (
-            <button onClick={() => setCurrentPage(index + 1)} key={index}>
-              {index + 1}
-            </button>
-          ))}
         </section>
       </main>
       <footer></footer>
