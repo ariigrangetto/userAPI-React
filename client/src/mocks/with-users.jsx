@@ -8,7 +8,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-export default function WithUsers({ users, onDeleteUser }) {
+export default function WithUsers({
+  users,
+  onDeleteUser,
+  onSortUsersName,
+  onSortUsersAge,
+}) {
   return (
     <>
       <TableContainer component={Paper} className='table'>
@@ -16,8 +21,10 @@ export default function WithUsers({ users, onDeleteUser }) {
           <TableHead>
             <TableRow>
               <TableCell>Image</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Age</TableCell>
+              <TableCell>
+                <button onClick={onSortUsersName}>Name</button>
+              </TableCell>
+              <TableCell onClick={onSortUsersAge}>Age</TableCell>
               <TableCell>Phone</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Gender</TableCell>
@@ -43,7 +50,12 @@ export default function WithUsers({ users, onDeleteUser }) {
                 <TableCell>{user.gender}</TableCell>
                 <TableCell>{user.rol}</TableCell>
                 <TableCell>
-                  <button onClick={() => onDeleteUser(user.id)}>Delete</button>
+                  <button
+                    className='delete-btn'
+                    onClick={() => onDeleteUser(user.id)}
+                  >
+                    Delete
+                  </button>
                 </TableCell>
               </TableRow>
             ))}
