@@ -49,8 +49,9 @@ export default function SearchUser({
 
   const handleChangeInput = (e) => {
     const search = e.target.value;
-    onTextToFilter(search);
-    //realizar el debounce
+    setTimeout(() => {
+      onTextToFilter(search);
+    }, 2000);
   };
 
   return (
