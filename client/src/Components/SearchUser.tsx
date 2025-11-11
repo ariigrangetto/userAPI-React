@@ -1,12 +1,20 @@
 import { memo, useId } from "react";
 import "./SearchUser.css";
+import type { filterTypes } from "../type.js";
+
+interface SearchUserProps {
+  onTextToFilter: (text: string) => void;
+  setFilter: React.Dispatch<React.SetStateAction<filterTypes>>;
+  onSearch: (filters: filterTypes) => void;
+  filters: filterTypes;
+}
 
 export const SearchUser = memo(function SearchUser({
   onTextToFilter,
   setFilter,
   onSearch,
   filters,
-}) {
+}: SearchUserProps) {
   const searchUserForm = useId();
   const labelGender = useId();
   const labelRol = useId();
@@ -14,29 +22,29 @@ export const SearchUser = memo(function SearchUser({
   const idGender = useId();
   const idInput = useId();
 
-  const handleSearchUser = (e) => {
+  const handleSearchUser = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target);
 
     const filter = {
-      rol: formData.get(idRol),
+      role: formData.get(idRol),
       gender: formData.get(idGender),
     };
 
     onSearch(filter);
   };
 
-  const handleChangeRol = (e) => {
+  const handleChangeRol = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newRol = e.target.value;
     setFilter((filter) => ({
       ...filter,
-      rol: newRol,
+      role: newRol,
     }));
 
-    onSearch({ ...filters, rol: newRol });
+    onSearch({ ...filters, role: newRol });
   };
 
-  const handleChangeGender = (e) => {
+  const handleChangeGender = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newGender = e.target.value;
     setFilter((filter) => ({
       ...filter,
@@ -47,7 +55,7 @@ export const SearchUser = memo(function SearchUser({
     onSearch({ ...filters, gender: newGender });
   };
 
-  const handleChangeInput = (e) => {
+  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const search = e.target.value;
     setTimeout(() => {
       onTextToFilter(search);

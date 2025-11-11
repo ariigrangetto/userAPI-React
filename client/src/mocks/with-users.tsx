@@ -7,13 +7,21 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import type { USERS } from "../type.d.ts";
+
+interface WithUsersProps {
+  users: USERS[];
+  onDeleteUser: (id: string | number) => void;
+  onSortUsersName: () => void;
+  onSortUsersAge: () => void;
+}
 
 export default function WithUsers({
   users,
   onDeleteUser,
   onSortUsersName,
   onSortUsersAge,
-}) {
+}: WithUsersProps) {
   return (
     <>
       <TableContainer component={Paper} className='table'>
@@ -48,7 +56,7 @@ export default function WithUsers({
                 <TableCell>{user.phone}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.gender}</TableCell>
-                <TableCell>{user.rol}</TableCell>
+                <TableCell>{user.role}</TableCell>
                 <TableCell>
                   <button
                     className='delete-btn'

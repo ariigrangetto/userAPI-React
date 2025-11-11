@@ -1,37 +1,35 @@
 import { useState } from "react";
 import "./App.css";
 import { useEffect } from "react";
-import { getUsers } from "./service/getUsers";
-import WithoutUsers from "./mocks/without-users.jsx";
-import WithUsers from "./mocks/with-users.jsx";
-import { SearchUser } from "./Components/SearchUser.jsx";
+import WithoutUsers from "./mocks/without-users";
+import WithUsers from "./mocks/with-users.js";
+import { SearchUser } from "./Components/SearchUser";
+import type { filterTypes, USERS } from "./type.d.ts";
+import useSearch from "./hooks/useUsers";
 
 function App() {
-  const [users, setUsers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [textToFilter, setTextToFilter] = useState("");
-  const [filters, setFilter] = useState({
-    rol: "",
+  const [users, setUsers] = useState<USERS[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [textToFilter, setTextToFilter] = useState<string>("");
+  const [sortByName, setSortByName] = useState<boolean>(false);
+  const [sortByAge, setSortByAge] = useState<boolean>(false);
+  const { isLoading, isError, data } = useSearch();
+  const [filters, setFilter] = useState<filterTypes>({
+    role: "",
     gender: "",
   });
-  const [sortByName, setSortByName] = useState(false);
-  const [sortByAge, setSortByAge] = useState(false);
-
-  const RESULTS_PER_PAGE = 4;
 
   useEffect(() => {
-    async function getApiUser() {
-      const data = await getUsers();
-      setUsers(data);
-    }
-    getApiUser();
+    setUsers(data);
   }, []);
+
+  const RESULTS_PER_PAGE = 4;
 
   const filteredByFilters = users?.filter((user) => {
     return (
       //forma para aplicar ningun filtro = ""
       (filters.gender === "" || user.gender === filters.gender) &&
-      (filters.rol === "" || user.rol === filters.rol)
+      (filters.role === "" || user.role === filters.role)
     );
   });
 
@@ -41,18 +39,18 @@ function App() {
       user.lastName.toLowerCase().includes(textToFilter.toLocaleLowerCase())
   );
 
-  const handleSearch = (filters) => {
+  const handleSearch = (filters: filterTypes) => {
     setFilter(filters);
     setCurrentPage(1);
   };
 
-  function handleDeleteUser(id) {
+  function handleDeleteUser(id: number | string) {
     const updatedUsers = filteredByText.filter((user) => user.id !== id);
     setUsers(updatedUsers);
     setCurrentPage(1);
   }
 
-  const handleFilterByText = (text) => {
+  const handleFilterByText = (text: string) => {
     setTextToFilter(text);
     setCurrentPage(1);
   };
@@ -83,12 +81,8 @@ function App() {
   const isLastPage = currentPage === totalPages;
   const isFirstPage = currentPage === 1;
 
-  const stylePrevButton = isFirstPage
-    ? { pointerEvents: "none", opacity: 0.5 }
-    : {};
-  const styleNextButton = isLastPage
-    ? { pointerEvents: "none", opacity: 0.5 }
-    : {};
+  const stylePrevButton = isFirstPage ? "opacity-50 pointer-events-none" : "";
+  const styleNextButton = isLastPage ? "opacity-50 pointer-events-none" : "";
 
   const handlePrevPage = () => {
     if (!isFirstPage) {
@@ -152,9 +146,3 @@ function App() {
 }
 
 export default App;
-
-//cuando utilizar useState y cuando no
-//Utilizarlo cuando quiero mostrar los cambios en la ui
-//no utilizarlo cuando solo es algo temporal como filtrados de select e inputs
-
-//tiene que ser algo que quiero que se muestre en la ui como eliminar un usuario
