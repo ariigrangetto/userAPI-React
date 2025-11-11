@@ -17,14 +17,14 @@ export class UserModel {
   static getUsers = async () => {
     //esto es porque devuelve un array de dos posiciones, por lo tanto solo quiero el primero
     const [result] = await connection.query(
-      `SELECT BIN_TO_UUID(id) id, firstName, lastName, maidenName, age, gender, email, phone, username, birthDate, image, height, weight, eyeColor, hair_type, hair_color, university, rol FROM users`
+      `SELECT BIN_TO_UUID(id) id, firstName, lastName, maidenName, age, gender, email, phone, username, birthDate, image, height, weight, eyeColor, hair_type, hair_color, university, role FROM users`
     );
     return result;
   };
 
   static getUser = async (id) => {
     const [result] = await connection.query(
-      `SELECT BIN_TO_UUID(id) id, firstName, lastName, maidenName, age, gender, email, phone, username, birthDate, image, height, weight, eyeColor, hair_type, hair_color, university, rol FROM users WHERE id = UUID_TO_BIN(?);`,
+      `SELECT BIN_TO_UUID(id) id, firstName, lastName, maidenName, age, gender, email, phone, username, birthDate, image, height, weight, eyeColor, hair_type, hair_color, university, role FROM users WHERE id = UUID_TO_BIN(?);`,
       [id]
     );
 
@@ -34,7 +34,7 @@ export class UserModel {
   static getUserFirstName = async (firstName) => {
     const lowerCasefirstName = firstName.toLowerCase();
     const [result] = await connection.query(
-      `SELECT BIN_TO_UUID(id) id, firstName, lastName, maidenName, age, gender, email, phone, username, birthDate, image, height, weight, eyeColor, hair_type, hair_color, university, rol FROM users WHERE LOWER(firstName) = ?;`,
+      `SELECT BIN_TO_UUID(id) id, firstName, lastName, maidenName, age, gender, email, phone, username, birthDate, image, height, weight, eyeColor, hair_type, hair_color, university, role FROM users WHERE LOWER(firstName) = ?;`,
       [lowerCasefirstName]
     );
 
@@ -73,7 +73,7 @@ export class UserModel {
     try {
       await connection.query(
         `
-      INSERT INTO users (id, firstName, lastName, maidenName, age, gender, email, phone, username, password, birthDate, image, height, weight, eyeColor, hair_type, hair_color, university, rol)
+      INSERT INTO users (id, firstName, lastName, maidenName, age, gender, email, phone, username, password, birthDate, image, height, weight, eyeColor, hair_type, hair_color, university, role)
       VALUES (UUID_TO_BIN(?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
         [
           uuid,
@@ -103,7 +103,7 @@ export class UserModel {
     }
 
     const [userCreated] = await connection.query(
-      `SELECT BIN_TO_UUID(id) id, firstName, lastName, maidenName, age, gender, email, phone, username, password, birthDate, image, height, weight, eyeColor, hair_type, hair_color, university, rol FROM users WHERE id = UUID_TO_BIN(?);`,
+      `SELECT BIN_TO_UUID(id) id, firstName, lastName, maidenName, age, gender, email, phone, username, password, birthDate, image, height, weight, eyeColor, hair_type, hair_color, university, role FROM users WHERE id = UUID_TO_BIN(?);`,
       [uuid]
     );
 
@@ -141,7 +141,7 @@ export class UserModel {
 
     const [result] = await connection.query(
       `
-      SELECT BIN_TO_UUID(id) id, firstName, lastName, maidenName, age, gender, email, phone, username, password, birthDate, image, height, weight, eyeColor, hair_type, hair_color, university, rol FROM users WHERE id = UUID_TO_BIN(?);
+      SELECT BIN_TO_UUID(id) id, firstName, lastName, maidenName, age, gender, email, phone, username, password, birthDate, image, height, weight, eyeColor, hair_type, hair_color, university, role FROM users WHERE id = UUID_TO_BIN(?);
       `,
       [id]
     );
