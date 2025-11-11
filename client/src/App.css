@@ -55,3 +55,8 @@ button {
 .isActive {
   background-color: rgba(0, 0, 255, 0.212);
 }
+
+.disableBtn {
+  pointer-events: none;
+  opacity: 50%;
+}
