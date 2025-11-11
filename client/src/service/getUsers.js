@@ -1,8 +1,11 @@
-const API_URL = import.meta.env.VITE_API_URL; // Replace with your server's port number
+const API_URL = import.meta.env.VITE_API_URL;
 
-export async function getUsers() {
+export default async function getUsers() {
   try {
     const result = await fetch(`${API_URL}/users`);
+    if (!result.ok) {
+      throw new Error("Error fetching data");
+    }
     const data = await result.json();
     return data.users;
   } catch (e) {
