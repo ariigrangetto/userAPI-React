@@ -17,8 +17,8 @@ export const SearchUser = memo(function SearchUser({
 }: SearchUserProps) {
   const searchUserForm = useId();
   const labelGender = useId();
-  const labelRol = useId();
-  const idRol = useId();
+  const labelRole = useId();
+  const idRole = useId();
   const idGender = useId();
   const idInput = useId();
 
@@ -27,14 +27,14 @@ export const SearchUser = memo(function SearchUser({
     const formData = new FormData(e.target);
 
     const filter = {
-      role: formData.get(idRol),
+      role: formData.get(idRole),
       gender: formData.get(idGender),
     };
 
     onSearch(filter);
   };
 
-  const handleChangeRol = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChangeRole = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newRol = e.target.value;
     setFilter((filter) => ({
       ...filter,
@@ -82,8 +82,8 @@ export const SearchUser = memo(function SearchUser({
               <option value='male'>Male</option>
               <option value='female'>Female</option>
             </select>
-            <label htmlFor={labelRol}>Rol </label>
-            <select name={idRol} id={idRol} onChange={handleChangeRol}>
+            <label htmlFor={labelRole}>Role</label>
+            <select name={idRole} id={idRole} onChange={handleChangeRole}>
               <option value=''>All</option>
               <option value='moderator'>Moderator</option>
               <option value='admin'>Admin</option>
