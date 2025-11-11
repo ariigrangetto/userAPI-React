@@ -6,22 +6,19 @@ import WithUsers from "./mocks/with-users.js";
 import { SearchUser } from "./Components/SearchUser";
 import type { filterTypes, USERS } from "./type.d.ts";
 import useSearch from "./hooks/useUsers";
+import { useQueryClient } from "@tanstack/react-query";
 
 function App() {
-  const [users, setUsers] = useState<USERS[]>([]);
+  const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [textToFilter, setTextToFilter] = useState<string>("");
   const [sortByName, setSortByName] = useState<boolean>(false);
   const [sortByAge, setSortByAge] = useState<boolean>(false);
-  const { isLoading, isError, data } = useSearch();
+  const { isLoading, isError, data: users } = useSearch();
   const [filters, setFilter] = useState<filterTypes>({
     role: "",
     gender: "",
   });
-
-  useEffect(() => {
-    setUsers(data);
-  }, []);
 
   const RESULTS_PER_PAGE = 4;
 
@@ -45,8 +42,11 @@ function App() {
   };
 
   function handleDeleteUser(id: number | string) {
-    const updatedUsers = filteredByText.filter((user) => user.id !== id);
-    setUsers(updatedUsers);
+    //funcion asincrona que se usa para actualizar el query caché
+    //queryClient.setQueryData(queryKey, oldData => newData);
+    queryClient.setQueryData<USERS[]>(["users"], (oldData) =>
+      oldData ? oldData.filter((user) => user.id !== id) : []
+    );
     setCurrentPage(1);
   }
 
@@ -81,8 +81,8 @@ function App() {
   const isLastPage = currentPage === totalPages;
   const isFirstPage = currentPage === 1;
 
-  const stylePrevButton = isFirstPage ? "opacity-50 pointer-events-none" : "";
-  const styleNextButton = isLastPage ? "opacity-50 pointer-events-none" : "";
+  const stylePrevButton = isFirstPage ? "disableBtn" : "";
+  const styleNextButton = isLastPage ? "disableBtn" : "";
 
   const handlePrevPage = () => {
     if (!isFirstPage) {
@@ -102,15 +102,16 @@ function App() {
     <>
       <header></header>
       <main>
+        <h1>List of users:</h1>
+        <SearchUser
+          onTextToFilter={handleFilterByText}
+          setFilter={setFilter}
+          filters={filters}
+          onSearch={handleSearch}
+        />
         <section className='users-lists'>
           {resultsPerPage?.length > 0 ? (
             <>
-              <SearchUser
-                onTextToFilter={handleFilterByText}
-                setFilter={setFilter}
-                filters={filters}
-                onSearch={handleSearch}
-              />
               <WithUsers
                 users={resultsPerPage}
                 onDeleteUser={handleDeleteUser}
