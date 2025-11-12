@@ -4,11 +4,11 @@ import "dotenv/config";
 import bcrypt from "bcrypt";
 
 const config = {
-  host: process.env.MONGO_DB_HOST,
-  user: process.env.MONGO_DB_USER,
-  port: process.env.MONGO_DB_PORT,
-  password: process.env.MONGO_DB_PASSWORD,
-  database: process.env.MONGO_DB_DATABASE,
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USER,
+  port: process.env.MYSQL_PORT,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
 };
 
 const connection = await mysql.createConnection(config);
@@ -121,7 +121,7 @@ export class UserModel {
     );
 
     const setValue = filterUpdatedElements
-      .map(([key]) => `user_${key} = ?`)
+      .map(([key]) => `${key} = ?`)
       .join(", ");
 
     const values = filterUpdatedElements.map(([_, value]) => value);
